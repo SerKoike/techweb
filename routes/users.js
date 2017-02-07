@@ -46,6 +46,7 @@ router.delete('/:id', function(req,res)
   .then((users) =>
   {
     res.status(200);
+    res.
     res.send(users);
   })
 });

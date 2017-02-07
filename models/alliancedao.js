@@ -39,12 +39,12 @@ module.exports =
       throw error;
     })
   },
-  delAlliance(id)
+  delAlliance(pId)
   {
-    return DB.query('SELECT * FROM alliances WHERE id = $(allianceID)',{allianceID: id})
+    return DB.query('SELECT * FROM alliances WHERE id = $(allianceID)',{allianceID: pId})
     .then((result) =>
     {
-      DB.query('DELETE FROM alliances WHERE id = $(allianceID)',{allianceID: id})
+      DB.query('DELETE FROM alliances WHERE id = $(allianceID)',{allianceID: pId})
       return result;
     })
     .catch((error) =>
@@ -55,7 +55,7 @@ module.exports =
   putAlliance(pId,pName)
   {
     DB.query('UPDATE alliances SET name=$(lName) WHERE id=$(lId)',{lId: pId, lName: pName})
-    return DB.query('SELECT * FROM alliances')
+    return DB.query('SELECT * FROM alliances WHERE id=$(lId)',{lId: pId})
     .then((result) =>
     {
       return result;

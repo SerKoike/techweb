@@ -23,4 +23,38 @@ router.get('/:id', function(req,res,next)
   })
 });
 
+router.post('/', function(req,req,next)
+{
+  var lName = req.body.alliance.name;
+  alliancedao.newAlliance(lName)
+  .then((alliance) =>
+  {
+    res.status(200);
+    res.send(alliance);
+  })
+});
+
+router.delete('/:id', function(req,res,next)
+{
+  var lId = req.params.id;
+  alliancedao.delAlliance(lId)
+  .then((alliance) =>
+  {
+    res.status(200);
+    res.send(alliance);
+  })
+});
+
+router.put('/:id', function(req,res,next)
+{
+  var lId = req.params.id;
+  var lName = req.body.alliance.name;
+  alliancedao.putAlliance(lId,lName)
+  .then((alliance) =>
+  {
+    res.status(200);
+    res.send(alliance);
+  })
+});
+
 module.exports = router;

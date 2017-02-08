@@ -44,7 +44,7 @@ module.exports =
     return DB.query('SELECT * FROM users WHERE id = $(userID)',{userID: id})
     .then((result) =>
     {
-      DB.query('DELETE FROM users WHERE id = $(userID)',{userID: id})
+      DB.query('DELETE FROM users WHERE id = $(userID)',{userID: id});
       return result;
     })
     .catch((error) =>

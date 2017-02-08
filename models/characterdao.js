@@ -16,7 +16,7 @@ module.exports =
   },
   getById(pId)
   {
-    return DB.query('SELECT * FROM characters WHERE id = $(lID)', { lId: pID })
+    return DB.query('SELECT * FROM characters WHERE id = $(lId)', {lId: pId })
     .then((result) =>
     {
       return result;
@@ -28,8 +28,8 @@ module.exports =
   },
   newCharacter(pName,pUser_id,pClass,pPoint)
   {
-    DB.query('INSERT INTO characters(name, user_id, class, position) VALUES ($(lName), $(lUser_id), $(lClass), $(lPoint))',
-    {lName: pName, lUser_id: pUser_id, lClass: pClass, lPoint: pPoint});
+    DB.query('INSERT INTO characters(name,user_id,class,position) VALUES ($(name),$(user_id), $(class), $(position))',
+    {name: pName, user_id: pUser_id, class: pClass, position: pPoint});
     return DB.query('SELECT * FROM characters WHERE name = $(lName) AND user_id = $(lUser_id) AND class = $(lClass) AND position = $(lPoint)',
     {lName: pName, lUser_id: pUser_id, lClass: pClass, lPoint: pPoint})
     .then((result) =>
@@ -46,7 +46,7 @@ module.exports =
     return DB.query('SELECT * characters WHERE id = $(lId)', {lId: pId})
     .then((result) =>
     {
-      DB.query('DELETE FROM characters WHERE id = $(lID)',{lID: pId})
+      DB.query('DELETE FROM characters WHERE id = $(lId)',{lId: pId})
       return result;
     })
     .catch((error) =>
@@ -56,7 +56,7 @@ module.exports =
   },
   putCharacter(pId,pName)
   {
-    DB.query('UPDATE characters SET name=$(lName) WHERE id = $(lID)',{lID: pId})
+    DB.query('UPDATE characters SET name=$(lName) WHERE id = $(lId)',{lId: pId})
     return DB.query('SELECT * characters WHERE id = $(lId)', {lId: pId})
     .then((result) =>
     {
@@ -66,5 +66,17 @@ module.exports =
     {
       throw error;
     })
-  }
+  }/*,
+  getClass(pClass)
+  {
+    return DB.query('SELECT * FROM characters WHERE class=$(lClass)', {lClass: pClass})
+    .then((result) =>
+    {
+      return result;
+    })
+    .catch((error) =>
+    {
+      throw error;
+    })
+  }*/
 }

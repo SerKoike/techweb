@@ -24,7 +24,7 @@ router.get('/:id', function(req,res,next)
   })
 });
 
-router.post('/', function(req,req,next)
+router.post('/', function(req,res,next)
 {
   var lName = req.body.character.name;
   var lClass = req.body.character.class;

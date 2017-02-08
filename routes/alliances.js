@@ -13,7 +13,7 @@ router.get('/', function(req, res, next)
     })
 });
 
-router.get('/:id', function(req,res,next)
+router.get('/:id', function(req, res, next)
 {
   var id = req.params.id;
   alliancedao.getById(id)
@@ -24,7 +24,7 @@ router.get('/:id', function(req,res,next)
   })
 });
 
-router.post('/', function(req,req,next)
+router.post('/', function(req, res, next)
 {
   var lName = req.body.alliance.name;
   alliancedao.newAlliance(lName)

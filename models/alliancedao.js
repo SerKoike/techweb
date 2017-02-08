@@ -28,7 +28,7 @@ module.exports =
   },
   newAlliance(pName)
   {
-    DB.query('INSERT INTO alliances(name) VALUES ($(lName))',{lname: pName});
+    DB.query('INSERT INTO alliances(name) VALUES ($(lName))',{lName: pName});
     return DB.query('SELECT * FROM alliances WHERE name=$(lName)',{lName: pName})
     .then((result) =>
     {
@@ -68,8 +68,7 @@ module.exports =
   //BONUS
   listUser(pAlliance_id)
   {
-    //TODO: query can be simpler, but lazy
-    return DB.query('SELECT users.id AS UserID,users.name AS Username,users.email,alliances.name AS AllianceID FROM users FULL JOIN alliances ON users.alliance_id = alliances.id WHERE alliances.id = $(lAlliance_id)',
+    return DB.query('SELECT * FROM users WHERE alliance_id=$(lAlliance_id)',
     {lAlliance_id: pAlliance_id})
     .then((result) =>
     {

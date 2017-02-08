@@ -64,5 +64,32 @@ module.exports =
     {
       throw error;
     })
+  },
+  //BONUS
+  listUser(pAlliance_id)
+  {
+    //TODO: query can be simpler, but lazy
+    return DB.query('SELECT users.id AS UserID,users.name AS Username,users.email,alliances.name AS AllianceID FROM users FULL JOIN alliances ON users.alliance_id = alliances.id WHERE alliances.id = $(lAlliance_id)',
+    {lAlliance_id: pAlliance_id})
+    .then((result) =>
+    {
+      return result;
+    })
+    .catch ((error) =>
+    {
+      throw error;
+    })
+  },
+  listCharacter(pAlliance_id)
+  {
+    return DB.query('SELECT * FROM characters WHERE user_id IN (SELECT id FROM users WHERE alliance_id=$(lAlliance_id))',{lAlliance_id: pAlliance_id})
+    .then((result) =>
+    {
+      return result;
+    })
+    .catch((error) =>
+    {
+      throw error;
+    })
   }
 }

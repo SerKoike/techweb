@@ -16,7 +16,7 @@ module.exports =
   },
   getById(pId)
   {
-    return DB.query('SELECT * FROM characters WHERE id = $(lID)'), { lId: pID })
+    return DB.query('SELECT * FROM characters WHERE id = $(lID)', { lId: pID })
     .then((result) =>
     {
       return result;
@@ -40,7 +40,7 @@ module.exports =
     {
       throw error;
     })
-  }
+  },
   delCharacter(pId)
   {
     return DB.query('SELECT * characters WHERE id = $(lId)', {lId: pId})

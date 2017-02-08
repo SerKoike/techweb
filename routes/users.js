@@ -22,7 +22,7 @@ router.get('/:id', function(req, res, next)
     res.send(users);
   })
 });
-router.post('/', function(req,res)
+router.post('/', function(req,res,next)
 {
   ///without postman test
   //:name/:email/:alliance
@@ -39,7 +39,7 @@ router.post('/', function(req,res)
     res.send(users);
   })
 });
-router.delete('/:id', function(req,res)
+router.delete('/:id', function(req,res,next)
 {
   var id = req.params.id;
   userdao.delUser(id)
@@ -50,7 +50,7 @@ router.delete('/:id', function(req,res)
     res.send(users);
   })
 });
-router.put('/:id', function(req,res)
+router.put('/:id', function(req,res,next)
 {
   ///Without postman test
   //:id/:name/:email/:alliance
@@ -69,5 +69,15 @@ router.put('/:id', function(req,res)
     res.send(users);
   })
 });
-
+//BONUS
+router.get('/:id/characters', function(req,res,next)
+{
+  var id = req.params.id;
+  userdao.getCharacter(id)
+  .then((users) =>
+  {
+    res.status(200);
+    res.send(users);
+  })
+});
 module.exports = router;

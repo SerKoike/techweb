@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const alliancedao = require('../models/alliancedao');
 
 /* GET home page. */
 router.get('/', function(req, res, next)
@@ -50,6 +51,27 @@ router.put('/:id', function(req,res,next)
   var lId = req.params.id;
   var lName = req.body.alliance.name;
   alliancedao.putAlliance(lId,lName)
+  .then((alliance) =>
+  {
+    res.status(200);
+    res.send(alliance);
+  })
+});
+//BONUS
+router.get('/:id/users', function(req,res,next)
+{
+  var lId = req.params.id;
+  alliancedao.listUser(lId)
+  .then((alliance) =>
+  {
+    res.status(200);
+    res.send(alliance);
+  })
+});
+router.get('/:id/characters', function(req,res,next)
+{
+  var lId = req.params.id;
+  alliancedao.listCharacter(lId)
   .then((alliance) =>
   {
     res.status(200);

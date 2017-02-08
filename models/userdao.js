@@ -64,5 +64,18 @@ module.exports =
     {
       throw error;
     })
+  },
+  //BONUS
+  getCharacter(pId)
+  {
+    return DB.query('SELECT * FROM characters WHERE user_id=$(lId)',{lId: pId})
+    .then((result) =>
+    {
+      return result;
+    })
+    .catch((error) =>
+    {
+      throw error;
+    })
   }
 }

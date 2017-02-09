@@ -4,7 +4,7 @@ module.exports =
 {
   getAll()
   {
-    return DB.query('SELECT * FROM alliances')
+    return DB.accessor.query('SELECT * FROM alliances')
       .then((result) =>
       {
         return result;
@@ -16,7 +16,7 @@ module.exports =
   },
   getById(id)
   {
-    return DB.query('SELECT * FROM alliances WHERE id = $(allianceID)',{allianceID: id})
+    return DB.accessor.query('SELECT * FROM alliances WHERE id = $(allianceID)',{allianceID: id})
       .then((result) =>
       {
         return result;
@@ -28,8 +28,8 @@ module.exports =
   },
   newAlliance(pName)
   {
-    DB.query('INSERT INTO alliances(name) VALUES ($(lName))',{lName: pName});
-    return DB.query('SELECT * FROM alliances WHERE name=$(lName)',{lName: pName})
+    DB.accessor.query('INSERT INTO alliances(name) VALUES ($(lName))',{lName: pName});
+    return DB.accessor.query('SELECT * FROM alliances WHERE name=$(lName)',{lName: pName})
     .then((result) =>
     {
       return result;
@@ -41,10 +41,10 @@ module.exports =
   },
   delAlliance(pId)
   {
-    return DB.query('SELECT * FROM alliances WHERE id = $(allianceID)',{allianceID: pId})
+    return DB.accessor.query('DELETE FROM alliances WHERE id = $(allianceID)',{allianceID: pId}) // DB.accessor.query('SELECT * FROM alliances WHERE id = $(allianceID)',{allianceID: pId})
     .then((result) =>
     {
-      DB.query('DELETE FROM alliances WHERE id = $(allianceID)',{allianceID: pId})
+      //DB.accessor.query('DELETE FROM alliances WHERE id = $(allianceID)',{allianceID: pId});
       return result;
     })
     .catch((error) =>
@@ -54,8 +54,8 @@ module.exports =
   },
   putAlliance(pId,pName)
   {
-    DB.query('UPDATE alliances SET name=$(lName) WHERE id=$(lId)',{lId: pId, lName: pName})
-    return DB.query('SELECT * FROM alliances WHERE id=$(lId)',{lId: pId})
+    DB.accessor.query('UPDATE alliances SET name=$(lName) WHERE id=$(lId)',{lId: pId, lName: pName})
+    return DB.accessor.query('SELECT * FROM alliances WHERE id=$(lId)',{lId: pId})
     .then((result) =>
     {
       return result;
@@ -68,7 +68,7 @@ module.exports =
   //BONUS
   listUser(pAlliance_id)
   {
-    return DB.query('SELECT * FROM users WHERE alliance_id=$(lAlliance_id)',
+    return DB.accessor.query('SELECT * FROM users WHERE alliance_id=$(lAlliance_id)',
     {lAlliance_id: pAlliance_id})
     .then((result) =>
     {
@@ -81,10 +81,23 @@ module.exports =
   },
   listCharacter(pAlliance_id)
   {
-    return DB.query('SELECT * FROM characters WHERE user_id IN (SELECT id FROM users WHERE alliance_id=$(lAlliance_id))',{lAlliance_id: pAlliance_id})
+    return DB.accessor.query('SELECT * FROM characters WHERE user_id IN (SELECT id FROM users WHERE alliance_id=$(lAlliance_id))',{lAlliance_id: pAlliance_id})
     .then((result) =>
     {
       return result;
+    })
+    .catch((error) =>
+    {
+      throw error;
+    })
+  },
+  getClassesOfId(pId,pClass)
+  {
+    return DB.accessor.query('SELECT characters.id,characters.name,user_id,class,position FROM characters FULL JOIN users ON characters.user_id = users.id WHERE alliance_id=$(lId) AND class=$(lClass)',
+    {lId: pId, lClass: pClass})
+    .then((result) =>
+    {
+      reurn result;
     })
     .catch((error) =>
     {

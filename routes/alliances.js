@@ -78,5 +78,16 @@ router.get('/:id/characters', function(req,res,next)
     res.send(alliance);
   })
 });
+router.get(':id/characters/:class', function(req,res,next)
+{
+  var lId = req.params.id;
+  var lClass = req.params.class;
+  alliancedao.getClassesOfId(lId,lClass)
+  .then((alliance) =>
+  {
+    res.status(200);
+    res.send(alliance);
+  })
+});
 
 module.exports = router;

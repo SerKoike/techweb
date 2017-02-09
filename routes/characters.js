@@ -27,10 +27,10 @@ router.get('/:id', function(req,res,next)
 router.post('/', function(req,res,next)
 {
   var lName = req.body.character.name;
-  var lClass = req.body.character.class;
   var lUser_id = req.body.character.user_id;
-  var lPoint = req.body.character.position;
-  characterdao.newCharacter(lName,lClass,lUser_id,lPoint)
+  var lClass = req.body.character.class;
+  var lPosition = req.body.character.position;
+  characterdao.newCharacter(lName,lUser_id,lClass,lPosition)
   .then((characters) =>
   {
     res.status(200);
@@ -52,7 +52,7 @@ router.delete('/:id', function(req,res,next)
 router.put('/:id', function(req,res,next)
 {
   var lId = req.params.id;
-  var lName = req.body.alliance.name;
+  var lName = req.body.character.name;
   characterdao.putCharacter(lId,lName)
   .then((characters) =>
   {

@@ -28,10 +28,9 @@ module.exports =
   },
   newCharacter(pName,pUser_id,pClass,pPosition)
   {
-    return DB.accessor.query('INSERT INTO characters(name,user_id,class) VALUES ($(name), $(user_id), $(class)) RETURNING *',
-    {name: pName, user_id: pUser_id, class: pClass, position: pPosition})
-    /*return DB.accessor.query('SELECT * FROM characters WHERE name = $(lName) AND user_id = $(lUser_id) AND class = $(lClass)',
-    { lName: pName, lUser_id: pUser_id, lClass: pClass, lPosition: pPosition })*/
+    var lPosition = "(" + pPosition.x + "," + pPosition.y + ")";
+    return DB.accessor.query('INSERT INTO characters(name,user_id,class,position) VALUES ( $(name), $(user_id), $(class), $(position) ) RETURNING *',
+    {name: pName, user_id: pUser_id, class: pClass, position: lPosition})
     .then((result) =>
     {
       return result[0];
@@ -56,9 +55,9 @@ module.exports =
   },
   putCharacter(pId,pName,pClass,pPosition)
   {
-    return DB.accessor.query('UPDATE characters SET name=$(lName),class=$(lClass) WHERE id=$(lId) RETURNING *',
-    {lId: pId, lName: pName, lClass: pClass, lPosition: pPosition})
-    //return DB.accessor.query('SELECT * FROM characters WHERE id=$(lId)',{lId: pId})
+    var position = "(" + pPosition.x + "," + pPosition.y + ")";
+    return DB.accessor.query('UPDATE characters SET name=$(lName),class=$(lClass),position=$(lPosition) WHERE id=$(lId) RETURNING *',
+    {lId: pId, lName: pName, lClass: pClass, lPosition: position})
     .then((result) =>
     {
       return result[0];
@@ -81,8 +80,10 @@ module.exports =
       throw error;
     })
   },
-  getAllyRadius(pId,pRadius)
+  //6.Renvoie tous les autres personnages de la même alliance (personnage actuel exclu) dans un radius en mètres
+  //(on considère que character.point.x = lat et character.point.y = long) + code 200
+  getAllyRadius(pId,pDistance)
   {
-
+      
   }
 }

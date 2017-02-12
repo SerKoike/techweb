@@ -66,7 +66,7 @@ router.post('/', function(req,res,next)
   })
   .catch((error) =>
   {
-    res.status(416)
+    res.status(500)
       .json(
       {
         status: 'Error',
@@ -110,7 +110,8 @@ router.put('/:id', function(req,res,next)
     res.status(200)
       .json({
         status: 'success',
-        character: characters
+        character: characters,
+        message: 'modified a character'
       });
   })
   .catch((error) =>

@@ -19,20 +19,21 @@ module.exports =
     return DB.accessor.query('SELECT * FROM users WHERE id = $(userID)',{userID: id})
       .then((result) =>
       {
-        return result;
+        return result[0];
       })
       .catch((error) =>
       {
         throw error;
       })
   },
-  newUser(pName, pEmail, pAlliance_id)
+  postUser(pName, pEmail, pAlliance_id)
   {
-    DB.accessor.query('INSERT INTO users(name, email, alliance_id) VALUES ($(name), $(email), $(alliance_id))',{name: pName, email: pEmail, alliance_id: pAlliance_id});
-    return DB.accessor.query('SELECT * FROM users WHERE name=$(name) AND email=$(email) AND alliance_id=$(alliance_id)',{name: pName, email: pEmail, alliance_id: pAlliance_id})
+    return DB.accessor.query('INSERT INTO users(name, email, alliance_id) VALUES ($(lName), $(lEmail), $(lAlliance_id)) RETURNING *',
+    {lName: pName, lEmail: pEmail, lAlliance_id: pAlliance_id})
+    //return DB.accessor.query('SELECT * FROM users WHERE name = $(lName)',{lName: pName})
     .then((result) =>
     {
-      return result;
+      return result[0];
     })
     .catch((error) =>
     {
@@ -54,11 +55,11 @@ module.exports =
   },
   putUser(pId,pName,pEmail,pAlliance_id)
   {
-    DB.accessor.query('UPDATE users SET name=$(lName), email=$(lEmail), alliance_id=$(lAlliance_id) WHERE id=$(lId)',{lId: pId, lName: pName, lEmail: pEmail, lAlliance_id: pAlliance_id})
-    return DB.accessor.query('SELECT * FROM users WHERE id=$(lId)',{lId: pId})
+    return DB.accessor.query('UPDATE users SET name=$(lName), email=$(lEmail), alliance_id=$(lAlliance_id) WHERE id=$(lId) RETURNING *',
+    {lId: pId, lName: pName, lEmail: pEmail, lAlliance_id: pAlliance_id})
     .then((result) =>
     {
-      return result;
+      return result[0];
     })
     .catch((error) =>
     {
@@ -66,6 +67,7 @@ module.exports =
     })
   },
   //BONUS
+  //3.get all characters of user X
   getCharacter(pId)
   {
     return DB.accessor.query('SELECT * FROM characters WHERE user_id=$(lId)',{lId: pId})

@@ -84,6 +84,20 @@ module.exports =
   //(on considère que character.point.x = lat et character.point.y = long) + code 200
   getAllyRadius(pId,pDistance)
   {
-      
+    var lRefLat = DB.accessor.query('SELECT position[0] FROM characters WHERE id=$(lId)', {lId: pId});
+    var lRefLon = DB.accessor.query('SELECT position[1] FROM characters WHERE id=$(lId)', {lId: pId});
+    var lRef = DB.accessor.query('SELECT position FROM characters WHERE id=$(lId)', {lId: pId});
+
+    //var lQuery = "SELECT * FROM characters WHERE (2*6371*acos(cos(radians($(refLat)))*cos(radians(position[0]))*cos(radians(position[1])-radians($(refLon)))+sin(radians($(refLat)))*sin(radians(position[0])))) < $(lDistance)";
+    var lQuery = "SELECT * FROM characters WHERE 2 * 6371 * asin( sqrt( power( sin(($(refLat)-position[0])/2)),2.0) + cos(position[1]) * cos($(refLon)) * power(sin(($(refLon)-position[1])/2)) ,2.0)) < $(lDistance)";
+    return DB.accessor.query(lQuery,{refLat: lRef[0], refLon: lRef[1], lDistance: pDistance})
+    .then((result) =>
+    {
+      return result;
+    })
+    .catch((error) =>
+    {
+      throw error;
+    })
   }
 }

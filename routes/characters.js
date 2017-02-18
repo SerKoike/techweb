@@ -147,5 +147,29 @@ router.get('/all/:class', function(req,res,next)
       })
   })
 });
-
+//6.Renvoie tous les autres personnages de la même alliance (personnage actuel exclu) dans un radius en mètres
+//(on considère que character.point.x = lat et character.point.y = long) + code 200
+router.get('/:id/allies/:radius', function(req,res,next)
+{
+  var lId = req.params.id;
+  var lRadius = req.params.radius;
+  characterdao.getAllyRadius(lId,lRadius)
+  .then((characters) =>
+  {
+    res.status(200)
+      .json({
+        status: 'success',
+        characters: characters
+      });
+  })
+  .catch((error) =>
+  {
+    res.status(500)
+      .json(
+      {
+        status: 'Error',
+        message: error
+      })
+  })
+});
 module.exports = router;
